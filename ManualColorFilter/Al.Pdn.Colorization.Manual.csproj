@@ -156,20 +156,21 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PaintDotNet.Base, Version=3.53.3690.27071, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\PaintDotNetBinaries\PaintDotNet.Base.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="PaintDotNet.Base, Version=4.13.6191.1824, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unofficial.PaintDotNet.Binaries.4.13.6191.1825\lib\net461\net461\PaintDotNet.Base.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="PaintDotNet.Core, Version=3.53.3690.27078, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\PaintDotNetBinaries\PaintDotNet.Core.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="PaintDotNet.Core, Version=4.13.6191.1824, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unofficial.PaintDotNet.Binaries.4.13.6191.1825\lib\net461\net461\PaintDotNet.Core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="PaintDotNet.Effects, Version=3.53.3690.27081, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\PaintDotNetBinaries\PaintDotNet.Effects.dll</HintPath>
-      <Private>False</Private>
+    <Reference Include="PaintDotNet.Data, Version=4.13.6191.1824, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unofficial.PaintDotNet.Binaries.4.13.6191.1825\lib\net461\net461\PaintDotNet.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PaintDotNet.Effects, Version=4.13.6191.1824, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unofficial.PaintDotNet.Binaries.4.13.6191.1825\lib\net461\net461\PaintDotNet.Effects.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -203,6 +204,9 @@
       <Project>{74d103d4-4762-43d4-88ed-e70c7b2ff124}</Project>
       <Name>Al.Pdn.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
