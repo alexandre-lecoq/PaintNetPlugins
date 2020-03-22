@@ -51,6 +51,10 @@
       <Project>{5890e6a3-6015-4420-91f0-a03107030fb2}</Project>
       <Name>Al.Pdn.Channel.Red</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Al.Pdn.Color.ChartBasedWhiteBalance\Al.Pdn.Color.ChartBasedWhiteBalance.csproj">
+      <Project>{e8845f65-dbf6-4619-adb4-834cf1e731e9}</Project>
+      <Name>Al.Pdn.Color.ChartBasedWhiteBalance</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Al.Pdn.Color.WhiteBalance\Al.Pdn.Color.WhiteBalance.csproj">
       <Project>{ac906f2d-5de5-4aff-aa45-c3b540d597d7}</Project>
       <Name>Al.Pdn.Color.WhiteBalance</Name>
