@@ -11,8 +11,8 @@
         private Complex _complexR;
         private Complex _complexG;
         private Complex _complexB;
-        private GaborFilterKernelWithEnvelope _kernel;
-        private bool _binary;
+        private readonly GaborFilterKernelWithEnvelope _kernel;
+        private readonly bool _binary;
         private ColorBgra _resultColor;
 
         /// <summary>
@@ -26,12 +26,11 @@
             _kernel = new GaborFilterKernelWithEnvelope(wavelength, orientation, renderQuality);
             _binary = binary;
 
-            _resultColor = new ColorBgra();
-            _resultColor.A = 0xff;
+            _resultColor = new ColorBgra {A = 0xff};
         }
 
         /// <inheritdoc />
-        public override void Clear()
+        protected override void Clear()
         {
             _complexR = Complex.Zero;
             _complexG = Complex.Zero;
@@ -39,7 +38,7 @@
         }
 
         /// <inheritdoc />
-        public override void Add(ColorBgra bgra, int m, int n)
+        protected override void Add(ColorBgra bgra, int m, int n)
         {
             if (_binary)
             {
@@ -56,15 +55,16 @@
         }
 
         /// <inheritdoc />
-        public override ColorBgra Color
+        protected override ColorBgra Color
         {
             get
             {
-                var factor = _kernel.Factor;
+                var factor = 1.0;//_kernel.Factor;
 
                 if (_binary)
                 {
-                    byte scaledMagnitude = (byte)(_complexR.Magnitude * factor).Clamp(0,255);
+                    _complexR *= 0xff;
+                    var scaledMagnitude = (byte)(_complexR.Magnitude * factor).Clamp(0,255);
                     
                     _resultColor.R = scaledMagnitude;
                     _resultColor.G = scaledMagnitude;
@@ -82,9 +82,6 @@
         }
 
         /// <inheritdoc />
-        public override Rectangle DefinitionRange
-        {
-            get { return _kernel.DefinitionRange; }
-        }
+        protected override Rectangle DefinitionRange => _kernel.DefinitionRange;
     }
 }

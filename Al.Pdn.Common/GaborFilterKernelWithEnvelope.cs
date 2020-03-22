@@ -1,4 +1,6 @@
-﻿namespace Al.Pdn.Common
+﻿using System.Runtime.CompilerServices;
+
+namespace Al.Pdn.Common
 {
     using System.Drawing;
 
@@ -7,9 +9,10 @@
     /// </summary>
     public class GaborFilterKernelWithEnvelope : ConvolutionKernel<Complex>
     {
-        private Complex[][] _kernelMatrix;
-        private double _factor;
+        private readonly Complex[][] _kernelMatrix;
         private Rectangle _definitionRange;
+        private readonly int _kernelArrayXOffset;
+        private readonly int _kernelArrayYOffset;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GaborFilterKernelWithEnvelope"/> class.
@@ -19,26 +22,28 @@
         /// <param name="envelopeWavelengthFactor">The side size of the definition range of the kernel.</param>
         public GaborFilterKernelWithEnvelope(double wavelength, double orientation, int envelopeWavelengthFactor)
         {
-            GaborFilterKernel fullKernel = new GaborFilterKernel(wavelength, orientation);
-            int sideSize = (int)(wavelength * envelopeWavelengthFactor);
+            var fullKernel = new GaborFilterKernel(wavelength, orientation);
+            var sideSize = (int)(wavelength * envelopeWavelengthFactor);
 
             // this is a quick fix dealing with even sized kernels.
-            if ((sideSize % 2) == 0)
+            if (sideSize % 2 == 0)
                 sideSize += 1;
 
-            int left = -(sideSize / 2);
+            var left = -(sideSize / 2);
             
             _definitionRange = new Rectangle(left, left, sideSize, sideSize);
+            _kernelArrayXOffset = _definitionRange.Right - 1;
+            _kernelArrayYOffset = _definitionRange.Bottom - 1;
             _kernelMatrix = CreateSquareMatrix(sideSize);
             Fill2DArray(fullKernel);
-            _factor = GetFactor();
+            Factor = GetFactor();
         }
 
         private void Fill2DArray(GaborFilterKernel fullKernel)
         {
-            for (int i = 0; i < _kernelMatrix.Length; i++)
+            for (var i = 0; i < _kernelMatrix.Length; i++)
             {
-                for (int j = 0; j < _kernelMatrix.Length; j++)
+                for (var j = 0; j < _kernelMatrix.Length; j++)
                 {
                     _kernelMatrix[i][j] = fullKernel[i - _definitionRange.Right, j - _definitionRange.Bottom];
                 }
@@ -49,9 +54,9 @@
         {
             var factor = Complex.Zero;
 
-            for (int i = 0; i < _kernelMatrix.Length; i++)
+            for (var i = 0; i < _kernelMatrix.Length; i++)
             {
-                for (int j = 0; j < _kernelMatrix.Length; j++)
+                for (var j = 0; j < _kernelMatrix.Length; j++)
                 {
                     factor += _kernelMatrix[i][j];
                 }
@@ -65,26 +70,17 @@
         {
             get
             {
-                int realX = x + _definitionRange.Right - 1;
-                int realY = y + _definitionRange.Bottom - 1;
+                var realX = x + _kernelArrayXOffset;
+                var realY = y + _kernelArrayYOffset;
 
                 return _kernelMatrix[realX][realY];
             }
         }
 
         /// <inheritdoc />
-        public override Rectangle DefinitionRange
-        {
-            get { return _definitionRange; }
-        }
+        public override Rectangle DefinitionRange => _definitionRange;
 
         /// <inheritdoc />
-        public override double Factor
-        {
-            get
-            {                
-                return _factor;
-            }
-        }
+        public override double Factor { get; }
     }
 }

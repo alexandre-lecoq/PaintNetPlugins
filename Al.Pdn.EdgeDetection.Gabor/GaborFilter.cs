@@ -25,20 +25,11 @@
         {
         }
         
-        private static Image StaticImage
-        {
-            get { return Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Al.Pdn.EdgeDetection.Gabor.GaborIcon.png")); }
-        }
+        private static Image StaticImage => Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Al.Pdn.EdgeDetection.Gabor.GaborIcon.png"));
 
-        private static string StaticName
-        {
-            get { return "Gabor filter"; }
-        }
+        private static string StaticName => "Gabor filter";
 
-        private static string StaticSubMenuName
-        {
-            get { return "Stylize"; }
-        }
+        private static string StaticSubMenuName => "Stylize";
 
         /// <summary>
         /// Gets the effect's property collection.
@@ -46,13 +37,14 @@
         /// <returns>Returns the <see cref="PropertyCollection"/>.</returns>
         protected override PropertyCollection OnCreatePropertyCollection()
         {
-            List<Property> properties = new List<Property>();
-
-            properties.Add(new BooleanProperty("Binary", true));
-            properties.Add(new Int32Property("Wavelength", 8, 2, 100));
-            properties.Add(new DoubleProperty("Orientation", 0, -180, 180));
-            properties.Add(new Int32Property("RenderQuality", 3, 1, 5));
-
+            var properties = new List<Property>
+            {
+                new BooleanProperty("Binary", true),
+                new Int32Property("Wavelength", 8, 2, 100),
+                new DoubleProperty("Orientation", 0, -180, 180),
+                new Int32Property("RenderQuality", 3, 1, 5)
+            };
+            
             return new PropertyCollection(properties);
         }
 
@@ -60,10 +52,10 @@
         /// Sets the parameter controls.
         /// </summary>
         /// <param name="props">The property collection.</param>
-        /// <returns>The control informations.</returns>
+        /// <returns>The control information.</returns>
         protected override ControlInfo OnCreateConfigUI(PropertyCollection props)
         {
-            ControlInfo info = PropertyBasedEffect.CreateDefaultConfigUI(props);
+            var info = PropertyBasedEffect.CreateDefaultConfigUI(props);
 
             info.SetPropertyControlValue("Binary", ControlInfoPropertyNames.DisplayName, "Input");
             info.SetPropertyControlValue("Binary", ControlInfoPropertyNames.Description, "Binary");
@@ -86,33 +78,36 @@
         /// <param name="srcArgs">The source picture arguments.</param>
         protected override void OnSetRenderInfo(PropertyBasedEffectConfigToken parameters, RenderArgs dstArgs, RenderArgs srcArgs)
         {
-            double orientation = ((double)parameters.GetProperty<DoubleProperty>("Orientation").Value * Math.PI) / 180.0;
+            var wavelength = parameters.GetProperty<Int32Property>("Wavelength").Value;
+            var orientation = parameters.GetProperty<DoubleProperty>("Orientation").Value * Math.PI / 180.0;
+            var renderQuality = parameters.GetProperty<Int32Property>("RenderQuality").Value + 1;
+            var binary = parameters.GetProperty<BooleanProperty>("Binary").Value;
 
-            _convolutionPool = new GaborConvolutionPool((double)parameters.GetProperty<Int32Property>("Wavelength").Value, orientation, parameters.GetProperty<Int32Property>("RenderQuality").Value + 1, parameters.GetProperty<BooleanProperty>("Binary").Value);
+            _convolutionPool = new GaborConvolutionPool(wavelength, orientation, renderQuality, binary);
         }
 
         /// <summary>
         /// Renders part of the picture.
         /// </summary>
-        /// <param name="rois">The regions to render.</param>
+        /// <param name="renderRects">The regions to render.</param>
         /// <param name="startIndex">The index of the first region to render.</param>
         /// <param name="length">The number of regions to render.</param>
-        protected override void OnRender(Rectangle[] rois, int startIndex, int length)
+        protected override void OnRender(Rectangle[] renderRects, int startIndex, int length)
         {
-            if (length != 0)
+            if (length == 0)
+                return;
+
+            if (IsCancelRequested)
+                return;
+
+            var convolution = _convolutionPool.GetConvolution();
+
+            for (var i = startIndex; i < (startIndex + length); i++)
             {
-                if (IsCancelRequested)
-                    return;
-
-                var convolution = _convolutionPool.GetConvolution();
-
-                for (int i = startIndex; i < (startIndex + length); i++)
-                {
-                    convolution.Render(base.DstArgs.Surface, base.SrcArgs.Surface, rois[i]);
-                }
-
-                _convolutionPool.Release(convolution);
+                convolution.Render(base.DstArgs.Surface, base.SrcArgs.Surface, renderRects[i]);
             }
+
+            _convolutionPool.Release(convolution);
         }
     }
 }

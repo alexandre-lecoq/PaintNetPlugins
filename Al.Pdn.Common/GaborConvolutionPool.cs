@@ -7,11 +7,11 @@
     /// </summary>
     public struct GaborConvolutionPool
     {
-        private double _wavelength;
-        private double _orientation;
-        private int _renderQuality;
-        private bool _binary;
-        private LinkedList<GaborConvolution> _availableConvolutionList;
+        private readonly double _wavelength;
+        private readonly double _orientation;
+        private readonly int _renderQuality;
+        private readonly bool _binary;
+        private readonly LinkedList<GaborConvolution> _availableConvolutionList;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GaborConvolutionPool"/> class.
@@ -38,13 +38,11 @@
                 {
                     return new GaborConvolution(_wavelength, _orientation, _renderQuality, _binary);
                 }
-                else
-                {
-                    // TODO : move lock here. In the worst we'll create more instance than needed. Is it a problem ?
-                    var firstConvolution = _availableConvolutionList.First.Value;
-                    _availableConvolutionList.RemoveFirst();
-                    return firstConvolution;
-                }
+
+                // TODO : move lock here. In the worst we'll create more instance than needed. Is it a problem ?
+                var firstConvolution = _availableConvolutionList.First.Value;
+                _availableConvolutionList.RemoveFirst();
+                return firstConvolution;
             }
         }
 

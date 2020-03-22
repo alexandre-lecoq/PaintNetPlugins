@@ -30,7 +30,7 @@
         }
 
         /// <inheritdoc />
-        public override void Clear()
+        protected override void Clear()
         {
             sumHR = 0;
             sumHG = 0;
@@ -42,7 +42,7 @@
         }
 
         /// <inheritdoc />
-        public override void Add(ColorBgra bgra, int m, int n)
+        protected override void Add(ColorBgra bgra, int m, int n)
         {
             var hKernelValue = _hKernel[m, n];
             sumHR += bgra.R * hKernelValue;
@@ -56,7 +56,7 @@
         }
 
         /// <inheritdoc />
-        public override ColorBgra Color
+        protected override ColorBgra Color
         {
             get
             {
@@ -76,7 +76,7 @@
         }
 
         /// <inheritdoc />
-        public override Rectangle DefinitionRange
+        protected override Rectangle DefinitionRange
         {
             get { return _hKernel.DefinitionRange; }
         }
