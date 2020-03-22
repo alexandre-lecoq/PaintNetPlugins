@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B6725786-41FE-4D87-80DE-5979284BD259}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Deploy</RootNamespace>
+    <AssemblyName>Deploy</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Al.Pdn.Channel.Blue\Al.Pdn.Channel.Blue.csproj">
+      <Project>{69d2c7a1-455a-4c2b-9847-1fa3ce7a2267}</Project>
+      <Name>Al.Pdn.Channel.Blue</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Al.Pdn.Channel.Green\Al.Pdn.Channel.Green.csproj">
+      <Project>{4cb85878-3765-491f-9804-50a8cf1763bd}</Project>
+      <Name>Al.Pdn.Channel.Green</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Al.Pdn.Channel.Red\Al.Pdn.Channel.Red.csproj">
+      <Project>{5890e6a3-6015-4420-91f0-a03107030fb2}</Project>
+      <Name>Al.Pdn.Channel.Red</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Al.Pdn.Color.WhiteBalance\Al.Pdn.Color.WhiteBalance.csproj">
+      <Project>{ac906f2d-5de5-4aff-aa45-c3b540d597d7}</Project>
+      <Name>Al.Pdn.Color.WhiteBalance</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Al.Pdn.Colorization.Inpainting\Al.Pdn.Colorization.Inpainting.csproj">
+      <Project>{6d04e799-2978-4d26-9e94-5af874dbe5ed}</Project>
+      <Name>Al.Pdn.Colorization.Inpainting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Al.Pdn.Colorization.Manual\Al.Pdn.Colorization.Manual.csproj">
+      <Project>{63257896-1727-413e-aec4-754dc2eb52b8}</Project>
+      <Name>Al.Pdn.Colorization.Manual</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Al.Pdn.Common\Al.Pdn.Common.csproj">
+      <Project>{74d103d4-4762-43d4-88ed-e70c7b2ff124}</Project>
+      <Name>Al.Pdn.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Al.Pdn.EdgeDetection.Gabor\Al.Pdn.EdgeDetection.Gabor.csproj">
+      <Project>{d2650f08-ae55-4c22-8249-107947876c01}</Project>
+      <Name>Al.Pdn.EdgeDetection.Gabor</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Al.Pdn.EdgeDetection.Sobel\Al.Pdn.EdgeDetection.Sobel.csproj">
+      <Project>{f8a835c6-0ea9-48fb-8d59-578aa19f609e}</Project>
+      <Name>Al.Pdn.EdgeDetection.Sobel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Al.Pdn.Thresholding.Otsu1979\Al.Pdn.Thresholding.Otsu1979.csproj">
+      <Project>{41f5d7ab-77b3-41fa-b04b-18b9546444e9}</Project>
+      <Name>Al.Pdn.Thresholding.Otsu1979</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y "$(SolutionDir)bin\*.*" "C:\Program Files\paint.net\Effects"
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>

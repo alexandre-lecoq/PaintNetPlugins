@@ -172,10 +172,12 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorMap.cs" />
     <Compile Include="Complex.cs" />
     <Compile Include="Convolution.cs" />
     <Compile Include="GaborConvolution.cs" />
     <Compile Include="GaborConvolutionPool.cs" />
+    <Compile Include="RgbColorExtension.cs" />
     <Compile Include="SobelConvolution.cs" />
     <Compile Include="SobelConvolutionPool.cs" />
     <Compile Include="SobelVerticalKernel.cs" />
@@ -184,6 +186,7 @@
     <Compile Include="ConvolutionKernel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SobelHorizontalKernel.cs" />
+    <Compile Include="UnsafeRgbColorF.cs" />
     <Compile Include="YCbCrColor.cs" />
   </ItemGroup>
   <ItemGroup>

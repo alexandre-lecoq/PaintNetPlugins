@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E8845F65-DBF6-4619-ADB4-834CF1E731E9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Al.Pdn.Color.ChartBasedWhiteBalance</RootNamespace>
+    <AssemblyName>Al.Pdn.Color.ChartBasedWhiteBalance</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PaintDotNet.Base, Version=4.210.7348.40816, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unofficial.PaintDotNet.Binaries.4.210.7348.40816\lib\net47\PaintDotNet.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintDotNet.Core, Version=4.210.7348.40816, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unofficial.PaintDotNet.Binaries.4.210.7348.40816\lib\net47\PaintDotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintDotNet.Data, Version=4.210.7348.40816, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unofficial.PaintDotNet.Binaries.4.210.7348.40816\lib\net47\PaintDotNet.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PaintDotNet.Effects, Version=4.210.7348.40816, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Unofficial.PaintDotNet.Binaries.4.210.7348.40816\lib\net47\PaintDotNet.Effects.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChartBasedWhiteBalance.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Al.Pdn.Common\Al.Pdn.Common.csproj">
+      <Project>{74d103d4-4762-43d4-88ed-e70c7b2ff124}</Project>
+      <Name>Al.Pdn.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy /y "$(TargetDir)*.dll"  "$(SolutionDir)bin\"
+xcopy /y "$(TargetDir)*.pdb"  "$(SolutionDir)bin\"
+</PostBuildEvent>
+  </PropertyGroup>
+</Project>
